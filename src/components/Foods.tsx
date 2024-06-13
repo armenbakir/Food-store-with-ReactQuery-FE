@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { getFoods } from "../services/fakeFoodService";
 import Favorite from "./Favorite";
+import Welcome from "./Welcome";
 
 function Foods() {
   const [foods, setFoods] = useState(getFoods());
@@ -24,6 +25,7 @@ function Foods() {
 
   return (
     <div className="container">
+      <Welcome />
       <p className="m-2">Showing {foods.length} foods in the database</p>
       <table className="table">
         <thead>
