@@ -2,9 +2,11 @@ import { useState } from "react";
 import { getFoods } from "../services/fakeFoodService";
 import Favorite from "./Favorite";
 import Welcome from "./Welcome";
+import Pagination from "./Pagination";
 
 function Foods() {
   const [foods, setFoods] = useState(getFoods());
+  const [selectedPage, setSelectedPage] = useState(1);
 
   function handleDelete(id: string) {
     const newFoods = foods.filter((food) => food._id !== id);
@@ -63,6 +65,12 @@ function Foods() {
           ))}
         </tbody>
       </table>
+      <Pagination
+        totalCount={foods.length}
+        pageSize={4}
+        selectedPage={selectedPage}
+        onPageSelect={setSelectedPage}
+      />
     </div>
   );
 }
