@@ -28,9 +28,18 @@ function Foods() {
     setFoods(newFoods);
   }
 
+  function handleCategorySelect(category: Category) {
+    setSelectedCategory(category);
+    setSelectedPage(1);
+  }
+
   if (foods.length === 0) return <p>There are no foods in the database</p>;
 
-  const paginatedFoods = paginate(foods, PAGE_SIZE, selectedPage);
+  const filteredFoods = selectedCategory._id
+    ? foods.filter((food) => food.category._id === selectedCategory._id)
+    : foods;
+
+  const paginatedFoods = paginate(filteredFoods, PAGE_SIZE, selectedPage);
 
   return (
     <div className="row container pt-3">
@@ -38,11 +47,13 @@ function Foods() {
         <ListGroup
           items={[DEFAULT_CATEGORY, ...getCategories()]}
           selectedItem={selectedCategory}
-          onItemSelect={setSelectedCategory}
+          onItemSelect={handleCategorySelect}
         />
       </div>
       <div className="col">
-        <p className="m-2">Showing {foods.length} foods in the database</p>
+        <p className="m-2">
+          Showing {filteredFoods.length} foods in the database
+        </p>
         <table className="table">
           <thead>
             <tr>
@@ -80,7 +91,7 @@ function Foods() {
           </tbody>
         </table>
         <Pagination
-          totalCount={foods.length}
+          totalCount={filteredFoods.length}
           pageSize={PAGE_SIZE}
           selectedPage={selectedPage}
           onPageSelect={setSelectedPage}
