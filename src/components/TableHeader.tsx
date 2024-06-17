@@ -29,6 +29,15 @@ function TableHeader<T>({ sortColumn, columns, onSort }: Props<T>) {
     onSort({ ...sortColumn });
   }
 
+  function renderSortIcon(column: TextColumn) {
+    if (column.path !== sortColumn.path) return null;
+
+    if (sortColumn.order === "asc")
+      return <i className="fa-solid fa-sort-down" />;
+
+    return <i className="fa-solid fa-sort-up" />;
+  }
+
   return (
     <thead className="clickable">
       <tr>
@@ -39,7 +48,7 @@ function TableHeader<T>({ sortColumn, columns, onSort }: Props<T>) {
               scope="col"
               onClick={() => handleSort(column.path)}
             >
-              {column.label}
+              {column.label} {renderSortIcon(column)}
             </th>
           ) : (
             <th key={column.key} />
