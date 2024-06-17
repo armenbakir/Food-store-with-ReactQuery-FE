@@ -17,7 +17,7 @@ interface Props {
 }
 
 function FoodsTable({ foods, sortColumn, onDelete, onFavor, onSort }: Props) {
-  const columns: column[] = [
+  const columns: column<Food>[] = [
     { path: "name", label: "Name" },
     { path: "category.name", label: "Category" },
     { path: "price", label: "Price" },
@@ -45,7 +45,7 @@ function FoodsTable({ foods, sortColumn, onDelete, onFavor, onSort }: Props) {
       <TableHeader onSort={onSort} sortColumn={sortColumn} columns={columns} />
       <TableBody
         columns={columns}
-        foods={foods}
+        items={foods}
         onDelete={onDelete}
         onFavor={onFavor}
       />

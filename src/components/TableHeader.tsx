@@ -1,8 +1,7 @@
-import { Food } from "../services/fakeFoodService";
 import { SortColumn } from "./FoodsTable";
 
-interface Props {
-  columns: column[];
+interface Props<T> {
+  columns: column<T>[];
   sortColumn: SortColumn;
   onSort(sortColumn: SortColumn): void;
 }
@@ -12,14 +11,14 @@ interface TextColumn {
   label: string;
 }
 
-interface ContentColumn {
+interface ContentColumn<T> {
   key: string;
-  content(food: Food): JSX.Element;
+  content(item: T): JSX.Element;
 }
 
-export type column = TextColumn | ContentColumn;
+export type column<T> = TextColumn | ContentColumn<T>;
 
-function TableHeader({ sortColumn, columns, onSort }: Props) {
+function TableHeader<T>({ sortColumn, columns, onSort }: Props<T>) {
   function handleSort(path: string) {
     if (path === sortColumn.path) {
       sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
