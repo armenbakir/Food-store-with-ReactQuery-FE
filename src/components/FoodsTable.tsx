@@ -1,6 +1,6 @@
 import { Food } from "../services/fakeFoodService";
 import Favorite from "./Favorite";
-import TableHeader from "./TableHeader";
+import TableHeader, { column } from "./TableHeader";
 
 export interface SortColumn {
   path: string;
@@ -16,9 +16,17 @@ interface Props {
 }
 
 function FoodsTable({ foods, sortColumn, onDelete, onFavor, onSort }: Props) {
+  const columns: column[] = [
+    { path: "name", label: "Name" },
+    { path: "category.name", label: "Category" },
+    { path: "price", label: "Price" },
+    { path: "numberInStock", label: "Stock" },
+    { key: "favorite" },
+    { key: "delete" },
+  ];
   return (
     <table className="table">
-      <TableHeader onSort={onSort} sortColumn={sortColumn} />
+      <TableHeader onSort={onSort} sortColumn={sortColumn} columns={columns} />
       <tbody>
         {foods.map((food) => (
           <tr key={food._id}>
