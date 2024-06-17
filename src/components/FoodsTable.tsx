@@ -1,12 +1,6 @@
-import { Food } from "../services/fakeFoodService";
+import { Food, SortColumn, column } from "../types";
 import Favorite from "./Favorite";
 import Table from "./Table";
-import { column } from "./TableHeader";
-
-export interface SortColumn {
-  path: string;
-  order: "asc" | "desc";
-}
 
 interface Props {
   foods: Food[];

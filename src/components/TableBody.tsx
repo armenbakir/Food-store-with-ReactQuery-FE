@@ -1,9 +1,5 @@
 import _ from "lodash";
-import { column } from "./TableHeader";
-
-export interface Id {
-  _id: string;
-}
+import { Id, column } from "../types";
 
 interface Props<T extends Id> {
   items: T[];

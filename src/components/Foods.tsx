@@ -3,9 +3,10 @@ import { useState } from "react";
 import { getFoods } from "../services/fakeFoodService";
 import Pagination from "./Pagination";
 import ListGroup from "./ListGroup";
-import { Category, getCategories } from "../services/fakeCategoryService";
+import { getCategories } from "../services/fakeCategoryService";
 import { paginate } from "../utils";
-import FoodsTable, { SortColumn } from "./FoodsTable";
+import FoodsTable from "./FoodsTable";
+import { Category, SortColumn } from "../types";
 
 const DEFAULT_CATEGORY: Category = { _id: "", name: "All categories" };
 const DEFAULT_SORT_COLUMN: SortColumn = { path: "name", order: "asc" };
