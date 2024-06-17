@@ -1,21 +1,27 @@
+import _ from "lodash";
 import { Food } from "../services/fakeFoodService";
 import Favorite from "./Favorite";
+import { column } from "./TableHeader";
 
 interface Props {
   foods: Food[];
+  columns: column[];
   onDelete(id: string): void;
   onFavor(id: string): void;
 }
 
-function TableBody({ foods, onDelete, onFavor }: Props) {
+function TableBody({ foods, columns, onDelete, onFavor }: Props) {
   return (
     <tbody>
       {foods.map((food) => (
         <tr key={food._id}>
-          <td>{food.name}</td>
-          <td>{food.category.name}</td>
-          <td>{food.price}</td>
-          <td>{food.numberInStock}</td>
+          {columns.map(
+            (column) =>
+              "path" in column && (
+                <td key={column.path}>{_.get(food, column.path)}</td>
+              )
+          )}
+
           <td>
             <Favorite
               isFavored={Boolean(food.isFavored)}
