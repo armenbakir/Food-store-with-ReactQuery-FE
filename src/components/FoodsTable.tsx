@@ -1,7 +1,7 @@
 import { Food } from "../services/fakeFoodService";
 import Favorite from "./Favorite";
-import TableBody from "./TableBody";
-import TableHeader, { column } from "./TableHeader";
+import Table from "./Table";
+import { column } from "./TableHeader";
 
 export interface SortColumn {
   path: string;
@@ -41,15 +41,12 @@ function FoodsTable({ foods, sortColumn, onDelete, onFavor, onSort }: Props) {
     },
   ];
   return (
-    <table className="table">
-      <TableHeader onSort={onSort} sortColumn={sortColumn} columns={columns} />
-      <TableBody
-        columns={columns}
-        items={foods}
-        onDelete={onDelete}
-        onFavor={onFavor}
-      />
-    </table>
+    <Table
+      columns={columns}
+      items={foods}
+      onSort={onSort}
+      sortColumn={sortColumn}
+    />
   );
 }
 
