@@ -1,4 +1,4 @@
-import { SortColumn, TextColumn, column } from "../../types";
+import { SortColumn, TextColumn, column } from "@types";
 
 interface Props<T> {
   columns: column<T>[];

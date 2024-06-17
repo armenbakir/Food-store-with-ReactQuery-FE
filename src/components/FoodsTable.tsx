@@ -1,5 +1,5 @@
-import { Food, SortColumn, column } from "../types";
-import { Favorite, Table } from "./common";
+import { Food, SortColumn, column } from "@types";
+import { Favorite, Table } from "@components/common";
 
 interface Props {
   foods: Food[];
