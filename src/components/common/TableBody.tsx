@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Id, column } from "../types";
+import { Id, column } from "../../types";
 
 interface Props<T extends Id> {
   items: T[];
