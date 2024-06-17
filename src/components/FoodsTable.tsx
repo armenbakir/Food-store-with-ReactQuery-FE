@@ -1,6 +1,5 @@
 import { Food, SortColumn, column } from "../types";
-import Favorite from "./common/Favorite";
-import Table from "./common/Table";
+import { Favorite, Table } from "./common";
 
 interface Props {
   foods: Food[];
