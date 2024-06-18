@@ -6,6 +6,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <NotFoundPage />,
     children: [
       { path: "/foods", element: <FoodsPage /> },
       { path: "/customers", element: <CustomersPage /> },
