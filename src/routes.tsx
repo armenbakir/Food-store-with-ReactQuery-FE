@@ -3,6 +3,7 @@ import {
   CustomersPage,
   FoodFormPage,
   FoodsPage,
+  LoginPage,
   NotFoundPage,
   OrdersPage,
 } from "@pages";
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
       { path: "/orders", element: <OrdersPage /> },
     ],
   },
+  { path: "/login", element: <LoginPage /> },
 ]);
 
 export default router;
