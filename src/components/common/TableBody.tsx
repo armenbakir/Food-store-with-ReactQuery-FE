@@ -12,10 +12,10 @@ function TableBody<T extends Id>({ items, columns }: Props<T>) {
       {items.map((item) => (
         <tr key={item._id}>
           {columns.map((column) =>
-            "path" in column ? (
-              <td key={column.path}>{_.get(item, column.path)}</td>
-            ) : (
+            "content" in column ? (
               <td key={column.key}>{column.content(item)}</td>
+            ) : (
+              <td key={column.path}>{_.get(item, column.path)}</td>
             )
           )}
         </tr>

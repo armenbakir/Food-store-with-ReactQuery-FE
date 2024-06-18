@@ -1,5 +1,6 @@
 import { Food, SortColumn, column } from "@types";
 import { Favorite, Table } from "@components/common";
+import { Link } from "react-router-dom";
 
 interface Props {
   foods: Food[];
@@ -11,7 +12,12 @@ interface Props {
 
 function FoodsTable({ foods, sortColumn, onDelete, onFavor, onSort }: Props) {
   const columns: column<Food>[] = [
-    { path: "name", label: "Name" },
+    {
+      path: "name",
+      label: "Name",
+      key: "name",
+      content: (food) => <Link to={`/foods/${food._id}`}>{food.name}</Link>,
+    },
     { path: "category.name", label: "Category" },
     { path: "price", label: "Price" },
     { path: "numberInStock", label: "Stock" },
