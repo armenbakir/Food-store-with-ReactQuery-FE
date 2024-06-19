@@ -19,9 +19,9 @@ const router = createBrowserRouter([
       { path: "/foods/:id", element: <FoodFormPage /> },
       { path: "/customers", element: <CustomersPage /> },
       { path: "/orders", element: <OrdersPage /> },
+      { path: "/login", element: <LoginPage /> },
     ],
   },
-  { path: "/login", element: <LoginPage /> },
 ]);
 
 export default router;
