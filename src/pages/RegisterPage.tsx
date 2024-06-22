@@ -1,36 +1,44 @@
 import { useForm, FieldValues } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
+  name: z.string(),
   username: z
     .string()
     .min(1, { message: "Username is required" })
-    .min(3, { message: "Username is too short" }),
+    .email({ message: "Invalid Email." }),
   password: z
     .string()
     .min(1, { message: "Password is required" })
-    .min(8, { message: "Password is too short" }),
+    .min(5, { message: "Password is too short" }),
 });
 
 type FormData = z.infer<typeof schema>;
 
-function LoginPage() {
+function RegisterPage() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onChange" });
 
   function onSubmit(data: FieldValues) {
     console.log("Submitted", data);
+    navigate("/foods");
   }
 
   return (
     <div className="vh-100 d-grid justify-content-center align-content-center">
-      <h1 className="mb-4 text-center">Login Page</h1>
+      <h1 className="mb-4 text-center">Register Page</h1>
       <div className="p-5 shadow rounded-3">
         <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="mb-3">
+            <label className="form-label">Name</label>
+            <input {...register("name")} className="form-control input-360" />
+          </div>
           <div className="mb-3">
             <label className="form-label">Username</label>
             <input
@@ -53,7 +61,7 @@ function LoginPage() {
           </div>
           <div className="d-grid justify-content-center mt-4">
             <button className="btn btn-primary" disabled={!isValid}>
-              Login
+              Register
             </button>
           </div>
         </form>
@@ -62,4 +70,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default RegisterPage;

@@ -6,6 +6,7 @@ import {
   LoginPage,
   NotFoundPage,
   OrdersPage,
+  RegisterPage,
 } from "@pages";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
       { path: "/customers", element: <CustomersPage /> },
       { path: "/orders", element: <OrdersPage /> },
       { path: "/login", element: <LoginPage /> },
+      { path: "/register", element: <RegisterPage /> },
     ],
   },
 ]);
