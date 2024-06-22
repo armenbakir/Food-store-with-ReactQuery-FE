@@ -2,14 +2,15 @@ import _ from "lodash";
 import { useState } from "react";
 import { paginate } from "@utils";
 import { FoodsTable } from "@components";
-import { Category, SortColumn } from "@types";
-import { ListGroup, Pagination } from "@components/common";
+import { Category, Food, SortColumn } from "@types";
+import { ListGroup, Pagination, SearchBox } from "@components/common";
 import { getCategories, getFoods } from "@services";
 
 const DEFAULT_CATEGORY: Category = { _id: "", name: "All categories" };
 const DEFAULT_SORT_COLUMN: SortColumn = { path: "name", order: "asc" };
 const PAGE_SIZE = 4;
 function FoodsPage() {
+  const [searchQuery, setSearchQuery] = useState("");
   const [foods, setFoods] = useState(getFoods());
   const [selectedPage, setSelectedPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState(DEFAULT_CATEGORY);
@@ -33,13 +34,27 @@ function FoodsPage() {
   function handleCategorySelect(category: Category) {
     setSelectedCategory(category);
     setSelectedPage(1);
+    setSearchQuery("");
+  }
+
+  function handleSearch(value: string) {
+    setSearchQuery(value);
+    setSelectedCategory(DEFAULT_CATEGORY);
   }
 
   if (foods.length === 0) return <p>There are no foods in the database</p>;
 
-  const filteredFoods = selectedCategory._id
-    ? foods.filter((food) => food.category._id === selectedCategory._id)
-    : foods;
+  let filteredFoods = foods;
+
+  if (searchQuery) {
+    filteredFoods = foods.filter((food) =>
+      food.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  } else if (selectedCategory._id) {
+    filteredFoods = foods.filter(
+      (food) => food.category._id === selectedCategory._id
+    );
+  }
 
   const sortedFoods = _.orderBy(
     filteredFoods,
@@ -59,9 +74,8 @@ function FoodsPage() {
         />
       </div>
       <div className="col">
-        <p className="m-2">
-          Showing {filteredFoods.length} foods in the database
-        </p>
+        <p>Showing {filteredFoods.length} foods in the database</p>
+        <SearchBox value={searchQuery} onChange={handleSearch} />
         <FoodsTable
           foods={paginatedFoods}
           sortColumn={sortColumn}
