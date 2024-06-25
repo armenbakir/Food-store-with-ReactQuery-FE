@@ -20,6 +20,7 @@ type FormData = z.infer<typeof schema>;
 function RegisterPage() {
   const navigate = useNavigate();
   const {
+    setError,
     register,
     handleSubmit,
     formState: { errors, isValid },
@@ -27,8 +28,14 @@ function RegisterPage() {
 
   async function onSubmit(data: FormData) {
     console.log("Submitted", data);
-    await user.register(data);
-    navigate("/foods");
+    try {
+      await user.register(data);
+      navigate("/foods");
+    } catch (error: any) {
+      if (error.response.status === 400) {
+        setError("username", { message: error.response.data });
+      }
+    }
   }
 
   return (
