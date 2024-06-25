@@ -2,12 +2,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { getCategories, getFood, saveFood } from "@services";
 import { useEffect } from "react";
 import { Food } from "@types";
+import { useCategories } from "@hooks";
+import { getFood, saveFood } from "@services";
 
 const schema = z.object({
-  _id: z.string(),
+  id: z.string().optional(),
   name: z.string().min(1, { message: "Name is required" }),
   categoryId: z.string().min(1, { message: "You must select a category." }),
   numberInStock: z
@@ -24,6 +25,7 @@ type FormData = z.infer<typeof schema>;
 
 function FoodFormPage() {
   const { id } = useParams();
+  const categories = useCategories();
   const navigate = useNavigate();
   const {
     reset,
@@ -36,26 +38,32 @@ function FoodFormPage() {
   });
 
   useEffect(() => {
-    if (!id || id === "new") return;
-    const food = getFood(id);
-    if (!food) return navigate("/not-found");
+    async function fetch() {
+      if (!id || id === "new") return;
 
-    reset(mapToFormData(food));
+      const { data: food } = await getFood(id);
+
+      if (!food) return navigate("/not-found");
+
+      reset(mapToFormData(food));
+    }
+
+    fetch();
   }, []);
 
   function mapToFormData(food: Food): FormData {
     return {
-      _id: food._id,
+      id: food.id,
       name: food.name,
-      categoryId: food.category._id,
+      categoryId: food.category.id,
       numberInStock: food.numberInStock,
       price: food.price,
     };
   }
 
-  function onSubmit(data: FormData) {
+  async function onSubmit(data: FormData) {
     console.log("data", data);
-    saveFood(data);
+    await saveFood(data);
     navigate("/foods");
   }
 
@@ -71,12 +79,15 @@ function FoodFormPage() {
         <div className="mb-3 w-50">
           <select {...register("categoryId")} className="form-select">
             <option />
-            {getCategories().map((category) => (
-              <option key={category._id} value={category._id}>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
                 {category.name}
               </option>
             ))}
           </select>
+          {errors.categoryId && (
+            <p className="text-danger">{errors.categoryId.message}</p>
+          )}
         </div>
         <div className="mb-3 w-50">
           <label className="form-label">Number in stock</label>

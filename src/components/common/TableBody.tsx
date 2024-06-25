@@ -10,7 +10,7 @@ function TableBody<T extends Id>({ items, columns }: Props<T>) {
   return (
     <tbody>
       {items.map((item) => (
-        <tr key={item._id}>
+        <tr key={item.id}>
           {columns.map((column) =>
             "content" in column ? (
               <td key={column.key}>{column.content(item)}</td>

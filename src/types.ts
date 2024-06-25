@@ -11,7 +11,7 @@ export interface ContentColumn<T> {
 export type column<T> = TextColumn | ContentColumn<T>;
 
 export interface Id {
-  _id: string;
+  id: string;
 }
 
 export interface SortColumn {
@@ -20,12 +20,12 @@ export interface SortColumn {
 }
 
 export interface Category {
-  _id: string;
+  id: string;
   name: string;
 }
 
 export interface Food {
-  _id: string;
+  id: string;
   name: string;
   category: Category;
   numberInStock: number;

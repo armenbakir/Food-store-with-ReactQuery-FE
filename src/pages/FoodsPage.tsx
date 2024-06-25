@@ -2,30 +2,32 @@ import _ from "lodash";
 import { useState } from "react";
 import { paginate } from "@utils";
 import { FoodsTable } from "@components";
-import { Category, Food, SortColumn } from "@types";
+import { Category, SortColumn } from "@types";
 import { ListGroup, Pagination, SearchBox } from "@components/common";
-import { deleteFood, getCategories, getFoods } from "@services";
-import { Link, NavLink } from "react-router-dom";
+import { deleteFood } from "@services";
+import { Link } from "react-router-dom";
+import { useCategories, useFoods } from "@hooks";
 
-const DEFAULT_CATEGORY: Category = { _id: "", name: "All categories" };
+const DEFAULT_CATEGORY: Category = { id: "", name: "All categories" };
 const DEFAULT_SORT_COLUMN: SortColumn = { path: "name", order: "asc" };
 const PAGE_SIZE = 4;
 function FoodsPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [foods, setFoods] = useState(getFoods());
+  const categories = useCategories();
+  const { foods, setFoods } = useFoods();
   const [selectedPage, setSelectedPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState(DEFAULT_CATEGORY);
   const [sortColumn, setSortColumn] = useState(DEFAULT_SORT_COLUMN);
 
-  function handleDelete(id: string) {
-    const newFoods = foods.filter((food) => food._id !== id);
+  async function handleDelete(id: string) {
+    const newFoods = foods.filter((food) => food.id !== id);
     setFoods(newFoods);
-    deleteFood(id);
+    await deleteFood(id);
   }
 
   function handleFavor(id: string) {
     const newFoods = foods.map((food) => {
-      if (food._id === id) {
+      if (food.id === id) {
         food.isFavored = !food.isFavored;
       }
       return food;
@@ -52,9 +54,9 @@ function FoodsPage() {
     filteredFoods = foods.filter((food) =>
       food.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-  } else if (selectedCategory._id) {
+  } else if (selectedCategory.id) {
     filteredFoods = foods.filter(
-      (food) => food.category._id === selectedCategory._id
+      (food) => food.category.id === selectedCategory.id
     );
   }
 
@@ -70,7 +72,7 @@ function FoodsPage() {
     <div className="row container pt-3">
       <div className="col-3">
         <ListGroup
-          items={[DEFAULT_CATEGORY, ...getCategories()]}
+          items={[DEFAULT_CATEGORY, ...categories]}
           selectedItem={selectedCategory}
           onItemSelect={handleCategorySelect}
         />
