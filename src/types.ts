@@ -24,6 +24,12 @@ export interface Category {
   name: string;
 }
 
+export interface User {
+  name: string;
+  username: string;
+  password: string;
+}
+
 export interface Food {
   id: string;
   name: string;
