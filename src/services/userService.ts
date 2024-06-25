@@ -1,11 +1,11 @@
 import { User } from "@types";
 import axios from "axios";
 
-const API_ENDPOINT =
-  "https://server.intensivecode.se/api/users?username=armen&accessCode=gdhHaS";
+const API_BASEURL = "https://server.intensivecode.se/api/users";
+const CREDENTIALS = "?username=armen&accessCode=gdhHaS";
 
 function register(user: User) {
-  return axios.post(API_ENDPOINT, user);
+  return axios.post(API_BASEURL + CREDENTIALS, user);
 }
 
 export default { register };
