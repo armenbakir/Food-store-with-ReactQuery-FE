@@ -30,6 +30,7 @@ function RegisterPage() {
     console.log("Submitted", data);
     try {
       await user.register(data);
+
       navigate("/foods");
     } catch (error: any) {
       if (error.response.status === 400) {

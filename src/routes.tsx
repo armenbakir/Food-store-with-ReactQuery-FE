@@ -21,10 +21,10 @@ const router = createBrowserRouter([
       { path: "/foods/:id", element: <FoodFormPage /> },
       { path: "/customers", element: <CustomersPage /> },
       { path: "/orders", element: <OrdersPage /> },
-      { path: "/login", element: <LoginPage /> },
-      { path: "/register", element: <RegisterPage /> },
     ],
   },
+  { path: "/login", element: <LoginPage /> },
+  { path: "/register", element: <RegisterPage /> },
   { path: "/logout", element: <Logout /> },
 ]);
 

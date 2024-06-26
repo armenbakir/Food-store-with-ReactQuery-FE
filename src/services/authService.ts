@@ -1,12 +1,37 @@
-import { UserLogin } from "@types";
+import { User, UserLogin } from "@types";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
+const TOKEN_KEY = "token";
 const API_BASEURL = "https://server.intensivecode.se/api/auth";
-
 const CREDENTIALS = "?username=armen&accessCode=gdhHaS";
 
-function login(user: UserLogin) {
-  return axios.post(API_BASEURL + CREDENTIALS, user);
+async function login(user: UserLogin) {
+  const { data: token } = await axios.post(API_BASEURL + CREDENTIALS, user);
+  localStorage.setItem(TOKEN_KEY, token);
+  return token;
 }
 
-export default { login };
+function loginWithJwt(token: string) {
+  localStorage.setItem(TOKEN_KEY, token);
+}
+
+function logout() {
+  localStorage.removeItem(TOKEN_KEY);
+}
+
+function getCurrentUser() {
+  const token = localStorage.getItem(TOKEN_KEY);
+
+  if (!token) return null;
+  try {
+    const user = jwtDecode<User>(token);
+
+    return user;
+  } catch (error) {
+    localStorage.removeItem(TOKEN_KEY);
+    return null;
+  }
+}
+
+export default { login, loginWithJwt, logout, getCurrentUser };
