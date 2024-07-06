@@ -14,8 +14,6 @@ interface Props {
 function FoodsTable({ foods, sortColumn, onDelete, onFavor, onSort }: Props) {
   const user = auth.getCurrentUser();
 
-  console.log(user);
-
   const columns: column<Food>[] = [
     {
       path: "name",
