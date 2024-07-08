@@ -68,7 +68,7 @@ function FoodsPage() {
   );
 
   const paginatedFoods = paginate(sortedFoods, PAGE_SIZE, selectedPage);
-
+  console.log(categories);
   return (
     <div className="row container pt-3">
       <div className="col-3">

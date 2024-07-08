@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { Food } from "@types";
 import { useCategories } from "@hooks";
 import { getFood, saveFood } from "@services";
+import { _Input, InputField } from "@components/common";
 
 const schema = z.object({
   id: z.string().optional(),
@@ -71,11 +72,14 @@ function FoodFormPage() {
     <div className="p-5">
       <h1>Food form {id} </h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-3 w-50">
-          <label className="form-label">Name</label>
-          <input {...register("name")} className="form-control" />
-          {errors.name && <p className="text-danger">{errors.name.message}</p>}
-        </div>
+        <InputField>
+          <InputField.Label>
+            <i className="fa-solid fa-user" />
+            Name
+          </InputField.Label>
+          <InputField.Input {...register("name")} />
+          <InputField.Error error={errors.name} />
+        </InputField>
         <div className="mb-3 w-50">
           <select {...register("categoryId")} className="form-select">
             <option />
@@ -89,26 +93,18 @@ function FoodFormPage() {
             <p className="text-danger">{errors.categoryId.message}</p>
           )}
         </div>
-        <div className="mb-3 w-50">
-          <label className="form-label">Number in stock</label>
-          <input
+        <InputField>
+          <InputField.Label>Stock</InputField.Label>
+          <InputField.Input
             {...register("numberInStock", { valueAsNumber: true })}
-            className="form-control"
           />
-          {errors.numberInStock && (
-            <p className="text-danger">{errors.numberInStock.message}</p>
-          )}
-        </div>
-        <div className="mb-3 w-50">
-          <label className="form-label">Price</label>
-          <input
-            {...register("price", { valueAsNumber: true })}
-            className="form-control"
-          />
-          {errors.price && (
-            <p className="text-danger">{errors.price.message}</p>
-          )}
-        </div>
+          <InputField.Error error={errors.numberInStock} />
+        </InputField>
+        <InputField>
+          <InputField.Label>Price</InputField.Label>
+          <InputField.Input {...register("price", { valueAsNumber: true })} />
+          <InputField.Error error={errors.price} />
+        </InputField>
         <button className="btn btn-primary" disabled={!isValid}>
           Save
         </button>
@@ -118,3 +114,10 @@ function FoodFormPage() {
 }
 
 export default FoodFormPage;
+
+// ForwardRef without Compound component Instead of InputField in the div
+//         <_Input
+//           {...register("price", { valueAsNumber: true })}
+//           label="Price"
+//           error={errors.price}
+//         />

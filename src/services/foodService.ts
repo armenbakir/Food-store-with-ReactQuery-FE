@@ -10,12 +10,11 @@ interface FoodFormData {
 }
 
 const API_BASEURL = "http://localhost:5570/api/foods";
-const CREDENTIALS = "?username=armen&accessCode=gdhHaS&auth=true";
 
 function foodURL(id?: string) {
-  if (id) return `${API_BASEURL}/${id}${CREDENTIALS}`;
+  if (id) return `${API_BASEURL}/${id}`;
 
-  return API_BASEURL + CREDENTIALS;
+  return API_BASEURL;
 }
 
 export function getFoods() {
