@@ -3,10 +3,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useEffect } from "react";
-import { Food } from "@types";
-import { useCategories } from "@hooks";
-import { getFood, saveFood } from "@services";
+import { Category, Food } from "@types";
 import { _Input, InputField } from "@components/common";
+import { useQuery } from "@tanstack/react-query";
+import { useGetCategories } from "@queries/categories";
+import { getFood, saveFood } from "@services";
 
 const schema = z.object({
   id: z.string().optional(),
@@ -26,8 +27,22 @@ type FormData = z.infer<typeof schema>;
 
 function FoodFormPage() {
   const { id } = useParams();
-  const categories = useCategories();
+
+  const { data: categories = [] } = useGetCategories();
+
+  const {
+    data: food,
+    isError,
+    isLoading,
+  } = useQuery<Food>({
+    queryKey: ["food", id],
+    queryFn: () => getFood(id!).then(({ data }) => data),
+    enabled: id !== "new",
+    retry: false,
+  });
+
   const navigate = useNavigate();
+
   const {
     reset,
     register,
@@ -39,18 +54,10 @@ function FoodFormPage() {
   });
 
   useEffect(() => {
-    async function fetch() {
-      if (!id || id === "new") return;
+    if (isError) return navigate("/not-found");
 
-      const { data: food } = await getFood(id);
-
-      if (!food) return navigate("/not-found");
-
-      reset(mapToFormData(food));
-    }
-
-    fetch();
-  }, []);
+    if (food) reset(mapToFormData(food));
+  }, [food, isError]);
 
   function mapToFormData(food: Food): FormData {
     return {
@@ -68,6 +75,8 @@ function FoodFormPage() {
     navigate("/foods");
   }
 
+  if (isLoading) return <h1>Loading...</h1>;
+
   return (
     <div className="p-5">
       <h1>Food form {id} </h1>
@@ -81,6 +90,7 @@ function FoodFormPage() {
           <InputField.Error error={errors.name} />
         </InputField>
         <div className="mb-3 w-50">
+          <label className="form-labe">Category</label>
           <select {...register("categoryId")} className="form-select">
             <option />
             {categories.map((category) => (

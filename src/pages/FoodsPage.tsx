@@ -4,27 +4,26 @@ import { paginate } from "@utils";
 import { FoodsTable } from "@components";
 import { Category, SortColumn } from "@types";
 import { ListGroup, Pagination, SearchBox } from "@components/common";
-import { auth, deleteFood } from "@services";
 import { Link } from "react-router-dom";
-import { useCategories, useFoods } from "@hooks";
+import { useDeleteFood, useGetFoods } from "@queries/foods";
+import { useGetCategories } from "@queries/categories";
+import { auth } from "@services";
 
 const DEFAULT_CATEGORY: Category = { id: "", name: "All categories" };
 const DEFAULT_SORT_COLUMN: SortColumn = { path: "name", order: "asc" };
 const PAGE_SIZE = 4;
+
 function FoodsPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const categories = useCategories();
-  const { foods, setFoods } = useFoods();
+
+  const { data: categories = [] } = useGetCategories();
+  const { data: foods = [] } = useGetFoods();
+  const { mutate: handleDelete } = useDeleteFood();
+
   const [selectedPage, setSelectedPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState(DEFAULT_CATEGORY);
   const [sortColumn, setSortColumn] = useState(DEFAULT_SORT_COLUMN);
   const user = auth.getCurrentUser();
-
-  async function handleDelete(id: string) {
-    const newFoods = foods.filter((food) => food.id !== id);
-    setFoods(newFoods);
-    await deleteFood(id);
-  }
 
   function handleFavor(id: string) {
     const newFoods = foods.map((food) => {
@@ -33,7 +32,7 @@ function FoodsPage() {
       }
       return food;
     });
-    setFoods(newFoods);
+    // setFoods(newFoods);
   }
 
   function handleCategorySelect(category: Category) {
@@ -68,7 +67,7 @@ function FoodsPage() {
   );
 
   const paginatedFoods = paginate(sortedFoods, PAGE_SIZE, selectedPage);
-  console.log(categories);
+
   return (
     <div className="row container pt-3">
       <div className="col-3">

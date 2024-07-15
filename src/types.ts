@@ -19,11 +19,6 @@ export interface SortColumn {
   order: "asc" | "desc";
 }
 
-export interface Category {
-  id: string;
-  name: string;
-}
-
 export interface User {
   id: string;
   name: string;
@@ -40,6 +35,11 @@ export interface UserRegister {
 export interface UserLogin {
   username: string;
   password: string;
+}
+
+export interface Category {
+  id: string;
+  name: string;
 }
 
 export interface Food {

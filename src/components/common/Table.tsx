@@ -3,7 +3,6 @@ import { TableHeader, TableBody } from "@components/common";
 
 interface Props<T extends Id> {
   items: T[];
-
   columns: column<T>[];
   sortColumn: SortColumn;
   onSort(sortColumn: SortColumn): void;
