@@ -10,6 +10,7 @@ import {
   OrdersPage,
   RegisterPage,
 } from "@pages";
+import CartPage from "@pages/CartPage";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
   { path: "/login", element: <LoginPage /> },
   { path: "/register", element: <RegisterPage /> },
   { path: "/logout", element: <Logout /> },
+  { path: "/cart", element: <CartPage /> },
 ]);
 
 export default router;
