@@ -1,5 +1,5 @@
 import { Modal, Button } from "react-bootstrap";
-import { CartItem } from "@types";
+import { ICartItem } from "@types";
 import { useCart } from "@Context/CartContext";
 
 interface CartModalProps {
@@ -25,7 +25,7 @@ function CartModal({ show, onHide }: CartModalProps) {
         ) : (
           <>
             <ul className="list-group mb-3">
-              {cartItems.map(({ item, quantity }: CartItem) => (
+              {cartItems.map(({ item, quantity }: ICartItem) => (
                 <li
                   key={item.id}
                   className="list-group-item d-flex justify-content-between align-items-center"

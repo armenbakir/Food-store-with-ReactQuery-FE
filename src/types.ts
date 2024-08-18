@@ -51,7 +51,7 @@ export interface Food {
   isFavored?: boolean;
 }
 
-export interface CartItem {
+export interface ICartItem {
   item: Food;
   quantity: number;
 }

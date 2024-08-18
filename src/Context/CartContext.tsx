@@ -1,8 +1,8 @@
 import { createContext, PropsWithChildren, useContext, useState } from "react";
-import { CartItem, Food } from "@types";
+import { Food, ICartItem } from "@types";
 
 const CartContext = createContext<{
-  cartItems: CartItem[];
+  cartItems: ICartItem[];
   addToCart: (item: Food) => void;
   decreaseQuantity: (id: string) => void;
   removeFromCart: (id: string) => void;
@@ -18,7 +18,7 @@ export const useCart = () => {
 };
 
 export const CartProvider = ({ children }: PropsWithChildren) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<ICartItem[]>([]);
 
   const addToCart = (item: Food) => {
     setCartItems((prevItems) => {

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { User } from "@types";
 import { auth } from "@services";
-import CartModal from "./common/CartModal";
+import { CartModal } from "./common";
 
 function NavBar() {
   const [user, setUser] = useState<User | null>(null);

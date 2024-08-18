@@ -7,3 +7,5 @@ export { default as TableHeader } from "./TableHeader";
 export { default as SearchBox } from "./SearchBox";
 export { default as _Input } from "./_Input";
 export { default as InputField } from "./InputField";
+export { default as CartModal } from "./CartModal";
+export { default as CartButton } from "./CartButton";

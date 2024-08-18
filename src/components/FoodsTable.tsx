@@ -1,8 +1,7 @@
 import { Food, SortColumn, column } from "@types";
-import { Favorite, Table } from "@components/common";
+import { CartButton, Favorite, Table } from "@components/common";
 import { Link } from "react-router-dom";
 import { auth } from "@services";
-import CartButton from "./common/CartButton";
 
 interface Props {
   foods: Food[];
