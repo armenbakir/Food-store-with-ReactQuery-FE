@@ -2,6 +2,7 @@ import { Food, SortColumn, column } from "@types";
 import { Favorite, Table } from "@components/common";
 import { Link } from "react-router-dom";
 import { auth } from "@services";
+import CartButton from "./common/CartButton";
 
 interface Props {
   foods: Food[];
@@ -9,9 +10,19 @@ interface Props {
   onSort(sortColumn: SortColumn): void;
   onDelete(id: string): void;
   onFavor(id: string): void;
+  onCartToggle(id: string): void;
+  isInCart: (id: string) => boolean;
 }
 
-function FoodsTable({ foods, sortColumn, onDelete, onFavor, onSort }: Props) {
+function FoodsTable({
+  foods,
+  sortColumn,
+  onDelete,
+  onFavor,
+  onSort,
+  onCartToggle,
+  isInCart,
+}: Props) {
   const user = auth.getCurrentUser();
 
   const columns: column<Food>[] = [
@@ -24,6 +35,15 @@ function FoodsTable({ foods, sortColumn, onDelete, onFavor, onSort }: Props) {
     { path: "category.name", label: "Category" },
     { path: "price", label: "Price" },
     { path: "numberInStock", label: "Stock" },
+    {
+      key: "cart",
+      content: (food) => (
+        <CartButton
+          isInCart={isInCart(food.id)}
+          onToggleCart={() => onCartToggle(food.id)}
+        />
+      ),
+    },
     {
       key: "favorite",
       content: (food) => (

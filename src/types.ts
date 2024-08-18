@@ -50,3 +50,8 @@ export interface Food {
   price: number;
   isFavored?: boolean;
 }
+
+export interface CartItem {
+  item: Food;
+  quantity: number;
+}

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useDeleteFood, useGetFoods } from "@queries/foods";
 import { useGetCategories } from "@queries/categories";
 import { auth } from "@services";
+import { useCart } from "@Context/CartContext";
 
 const DEFAULT_CATEGORY: Category = { id: "", name: "All categories" };
 const DEFAULT_SORT_COLUMN: SortColumn = { path: "name", order: "asc" };
@@ -15,6 +16,7 @@ const PAGE_SIZE = 4;
 
 function FoodsPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const { addToCart, cartItems, removeFromCart } = useCart();
 
   const { data: categories = [] } = useGetCategories();
   const { data: foods = [] } = useGetFoods();
@@ -33,6 +35,22 @@ function FoodsPage() {
       return food;
     });
     // setFoods(newFoods);
+  }
+
+  function handleCartToggle(id: string) {
+    const foodInCart = cartItems.find((cartItem) => cartItem.item.id === id);
+    if (foodInCart) {
+      removeFromCart(id);
+    } else {
+      const food = foods.find((food) => food.id === id);
+      if (food) {
+        addToCart(food);
+      }
+    }
+  }
+
+  function isInCart(id: string) {
+    return cartItems.some((cartItem) => cartItem.item.id === id);
   }
 
   function handleCategorySelect(category: Category) {
@@ -91,6 +109,8 @@ function FoodsPage() {
           onDelete={handleDelete}
           onFavor={handleFavor}
           onSort={setSortColumn}
+          onCartToggle={handleCartToggle}
+          isInCart={isInCart}
         />
         <Pagination
           totalCount={filteredFoods.length}
